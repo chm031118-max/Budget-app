@@ -18,11 +18,13 @@ const allBtn = document.querySelector(".third-tab");
 const addExpense = document.querySelector(".add-expense");
 const expenseTitle = document.getElementById("expense-title-input");
 const expenseAmount = document.getElementById("expense-amount-input");
-
+const expenseTitleError = document.getElementById("expense-title-error");
+const expenseAmountError = document.getElementById("expense-amount-error");
 const addIncome = document.querySelector(".add-income");
 const incomeTitle = document.getElementById("income-title-input");
 const incomeAmount = document.getElementById("income-amount-input");
-
+const incomeTitleError = document.getElementById("income-title-error");
+const incomeAmountError = document.getElementById("income-amount-error");
 //VARIABLES
 let ENTRY_LIST;
 let balance = 0,
@@ -54,17 +56,33 @@ allBtn.addEventListener("click", function () {
   active(allBtn);
   inactive([incomeBtn, expenseBtn]);
 });
-
 addExpense.addEventListener("click", function () {
-  // CHECK IF ONE OF THE INPUT IS EMPTY => EXIT
-  if (!expenseTitle.value || !expenseAmount.value) return;
+  const validationResult = validateEntry(expenseTitle.value, expenseAmount.value);
 
-  // ADD INPUTs TO ENTRY_LIST
+  if (!validationResult.valid) {
+    showValidationErrors(
+      expenseTitle,
+      expenseAmount,
+      expenseTitleError,
+      expenseAmountError,
+      validationResult.errors
+    );
+    return;
+  }
+
+  clearValidationErrors(
+    expenseTitle,
+    expenseAmount,
+    expenseTitleError,
+    expenseAmountError
+  );
+
   let expense = {
     type: "expense",
-    title: expenseTitle.value,
-    amount: +expenseAmount.value,
+    title: validationResult.value.title,
+    amount: validationResult.value.amount,
   };
+
   ENTRY_LIST.push(expense);
 
   updateUI();
@@ -72,15 +90,32 @@ addExpense.addEventListener("click", function () {
 });
 
 addIncome.addEventListener("click", function () {
-  // CHECK IF ONE OF THE INPUT IS EMPTY => EXIT
-  if (!incomeTitle.value || !incomeAmount.value) return;
+  const validationResult = validateEntry(incomeTitle.value, incomeAmount.value);
 
-  // ADD INPUTs TO ENTRY_LIST
+  if (!validationResult.valid) {
+    showValidationErrors(
+      incomeTitle,
+      incomeAmount,
+      incomeTitleError,
+      incomeAmountError,
+      validationResult.errors
+    );
+    return;
+  }
+
+  clearValidationErrors(
+    incomeTitle,
+    incomeAmount,
+    incomeTitleError,
+    incomeAmountError
+  );
+
   let income = {
     type: "income",
-    title: incomeTitle.value,
-    amount: +incomeAmount.value,
+    title: validationResult.value.title,
+    amount: validationResult.value.amount,
   };
+
   ENTRY_LIST.push(income);
 
   updateUI();
@@ -199,4 +234,20 @@ function inactive(elements) {
   elements.forEach((element) => {
     element.classList.remove("focus");
   });
+}
+
+function showValidationErrors(titleInput, amountInput, titleErrorElement, amountErrorElement, errors) {
+  titleErrorElement.textContent = errors.title || "";
+  amountErrorElement.textContent = errors.amount || "";
+
+  titleInput.classList.toggle("input-error", Boolean(errors.title));
+  amountInput.classList.toggle("input-error", Boolean(errors.amount));
+}
+
+function clearValidationErrors(titleInput, amountInput, titleErrorElement, amountErrorElement) {
+  titleErrorElement.textContent = "";
+  amountErrorElement.textContent = "";
+
+  titleInput.classList.remove("input-error");
+  amountInput.classList.remove("input-error");
 }
