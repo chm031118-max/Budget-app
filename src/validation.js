@@ -2,7 +2,7 @@
 
 (function (global) {
     const MAX_TITLE_LENGTH = 40;
-    const MAX_AMOUNT = 1000000;
+    const MAX_AMOUNT = 10000000000;
   
     const ERROR_MESSAGES = {
       titleRequired: "Title is required.",
