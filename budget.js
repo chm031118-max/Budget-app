@@ -128,31 +128,42 @@ allList.addEventListener("click", deleteOrEdit);
 
 // HELEPER FUNCS
 function deleteOrEdit(event) {
-  const targetBtn = event.target;
-  const entry = targetBtn.parentNode;
+  const targetBtn = event.target.closest("button[data-action]");
+  if (!targetBtn) return;
 
-  if (targetBtn.id == EDIT) {
+  const entry = targetBtn.closest("li");
+  if (!entry) return;
+
+  if (targetBtn.dataset.action === EDIT) {
     editEntry(entry);
-  } else if (targetBtn.id == DELETE) {
+  } else if (targetBtn.dataset.action === DELETE) {
     deleteEntry(entry);
   }
 }
 
 function deleteEntry(entry) {
-  ENTRY_LIST.splice(entry.id, 1);
+  const index = Number(entry.dataset.index);
+  if (!Number.isInteger(index)) return;
+
+  ENTRY_LIST.splice(index, 1);
   updateUI();
 }
 
 function editEntry(entry) {
-  const ENTRY = ENTRY_LIST[entry.id];
+  const index = Number(entry.dataset.index);
+  if (!Number.isInteger(index)) return;
 
-  if (ENTRY.type == "income") {
-    incomeTitle.value = ENTRY.title;
-    incomeAmount.value = ENTRY.amount;
-  } else if (ENTRY.type == "expense") {
-    expenseTitle.value = ENTRY.title;
-    expenseAmount.value = ENTRY.amount;
+  const selectedEntry = ENTRY_LIST[index];
+  if (!selectedEntry) return;
+
+  if (selectedEntry.type === "income") {
+    incomeTitle.value = selectedEntry.title;
+    incomeAmount.value = selectedEntry.amount;
+  } else if (selectedEntry.type === "expense") {
+    expenseTitle.value = selectedEntry.title;
+    expenseAmount.value = selectedEntry.amount;
   }
+
   deleteEntry(entry);
 }
 
@@ -183,13 +194,28 @@ function updateUI() {
 }
 
 function showEntry(list, type, title, amount, id) {
-  const entry = `<li id="${id}" class="${type}">
-                    <div class="entry">${title} : $${amount}</div>
-                    <div id="edit"></div>
-                    <div id="delete"></div>
-                  </li>`;
-  const position = "afterbegin";
-  list.insertAdjacentHTML(position, entry);
+  const listItem = document.createElement("li");
+  listItem.dataset.index = id;
+  listItem.className = type;
+
+  const entryText = document.createElement("div");
+  entryText.className = "entry";
+  entryText.textContent = `${title} : $${amount}`;
+
+  const editButton = document.createElement("button");
+  editButton.className = "edit";
+  editButton.type = "button";
+  editButton.dataset.action = EDIT;
+  editButton.setAttribute("aria-label", `Edit ${title}`);
+
+  const deleteButton = document.createElement("button");
+  deleteButton.className = "delete";
+  deleteButton.type = "button";
+  deleteButton.dataset.action = DELETE;
+  deleteButton.setAttribute("aria-label", `Delete ${title}`);
+
+  listItem.append(entryText, editButton, deleteButton);
+  list.prepend(listItem);
 }
 
 function clearElement(elements) {
