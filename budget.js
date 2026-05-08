@@ -355,4 +355,5 @@ function isValidStoredEntry(entry) {
     Number.isFinite(entry.amount) &&
     entry.amount > 0
   );
+  
 }
