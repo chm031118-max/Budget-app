@@ -34,7 +34,7 @@ const DELETE = "delete",
   EDIT = "edit";
 
 // LOOK IF THERE IS DATA IN LOCAL STORAGE
-ENTRY_LIST = JSON.parse(localStorage.getItem("entry_list")) || [];
+ENTRY_LIST = loadEntries();
 updateUI();
 
 //EVENT LISTENERS
@@ -190,7 +190,7 @@ function updateUI() {
     showEntry(allList, entry.type, entry.title, entry.amount, index);
   });
   updateChart(income, outcome);
-  localStorage.setItem("entry_list", JSON.stringify(ENTRY_LIST));
+  saveEntries(ENTRY_LIST);
 }
 
 function showEntry(list, type, title, amount, id) {
@@ -313,4 +313,46 @@ function validateEntry(title, amount) {
       amount: numericAmount,
     },
   };
+}
+
+function loadEntries() {
+  try {
+    const rawEntries = localStorage.getItem("entry_list");
+
+    if (!rawEntries) {
+      return [];
+    }
+
+    const parsedEntries = JSON.parse(rawEntries);
+
+    if (!Array.isArray(parsedEntries)) {
+      localStorage.removeItem("entry_list");
+      return [];
+    }
+
+    return parsedEntries.filter(isValidStoredEntry);
+  } catch (error) {
+    console.error("Failed to load entries from localStorage:", error);
+    localStorage.removeItem("entry_list");
+    return [];
+  }
+}
+
+function saveEntries(entries) {
+  try {
+    localStorage.setItem("entry_list", JSON.stringify(entries));
+  } catch (error) {
+    console.error("Failed to save entries to localStorage:", error);
+  }
+}
+
+function isValidStoredEntry(entry) {
+  return (
+    entry &&
+    (entry.type === "income" || entry.type === "expense") &&
+    typeof entry.title === "string" &&
+    typeof entry.amount === "number" &&
+    Number.isFinite(entry.amount) &&
+    entry.amount > 0
+  );
 }
