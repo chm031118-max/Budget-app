@@ -16,6 +16,47 @@ body {
   font-family: "Gilroy";
 }
 
+.privacy-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  padding: 24px;
+}
+
+.privacy-card {
+  width: min(100%, 560px);
+  box-sizing: border-box;
+  padding: 32px;
+  border-radius: 8px;
+  background-color: #fff;
+  color: #1a0034;
+  line-height: 1.6;
+}
+
+.privacy-card h1 {
+  margin-top: 0;
+  font-family: "Gilroy Bold";
+}
+
+.privacy-card p {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+}
+
+.back-link {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 10px 14px;
+  border-radius: 6px;
+  background-color: #2a0355;
+  color: #fff;
+  font-family: "Gilroy Bold";
+}
+
 * {
   font-family: "Gilroy";
   list-style: none;
@@ -545,4 +586,70 @@ input[type="number"] {
 .input-error {
   outline: 2px solid #b00020;
   outline-offset: 2px;
+}
+
+/* Cookie banner */
+.cookie-banner {
+  position: fixed;
+  left: 20px;
+  right: 20px;
+  bottom: 20px;
+  z-index: 1000;
+  padding: 16px;
+  border-radius: 16px;
+  background-color: #ffffff;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.cookie-banner.hide {
+  display: none;
+}
+
+.cookie-banner-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.cookie-banner-content p {
+  margin: 0;
+  font-size: 14px;
+  color: #333333;
+  line-height: 1.5;
+}
+
+.cookie-banner-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+#accept-cookies {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  background-color: #6c5ce7;
+  color: #ffffff;
+  font-weight: bold;
+}
+
+#accept-cookies:active {
+  transform: translateY(1px);
+}
+
+.privacy-link {
+  font-size: 14px;
+  color: #6c5ce7;
+  text-decoration: underline;
+  font-weight: bold;
+}
+
+@media (max-width: 600px) {
+  .cookie-banner-content {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }
