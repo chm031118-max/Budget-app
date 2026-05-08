@@ -73,14 +73,14 @@
       // valid examples: 12, 12.2, 12.22
       // invalid examples: 12.222, 1e+45, abc, $12
       const normalNumberPattern = /^\d+(\.\d{1,2})?$/;
-  
-      if (!normalNumberPattern.test(rawAmount)) {
-        return {
-          valid: false,
-          value: null,
-          error: ERROR_MESSAGES.amountFormat,
-        };
-      }
+
+if (!normalNumberPattern.test(rawAmount)) {
+  return {
+    valid: false,
+    value: null,
+    error: ERROR_MESSAGES.amountFormat,
+  };
+}
   
       if (numericAmount > MAX_AMOUNT) {
         return {
@@ -97,12 +97,12 @@
       };
     }
   
-    function validateEntry(title, amount) {
+function validateEntry(title, amount) {
       const titleResult = validateTitle(title);
       const amountResult = validateAmount(amount);
-  
+    
       const isValid = titleResult.valid && amountResult.valid;
-  
+    
       if (!isValid) {
         return {
           valid: false,
@@ -113,7 +113,7 @@
           },
         };
       }
-  
+    
       return {
         valid: true,
         value: {
