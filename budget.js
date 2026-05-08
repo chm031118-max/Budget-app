@@ -8,6 +8,8 @@ const allEl = document.querySelector("#all");
 const incomeList = document.querySelector("#income .list");
 const expenseList = document.querySelector("#expense .list");
 const allList = document.querySelector("#all .list");
+const cookieBanner = document.getElementById("cookie-banner");
+const acceptCookiesBtn = document.getElementById("accept-cookies");
 
 const translations = {
   en: {
@@ -66,6 +68,7 @@ const DELETE = "delete",
 // LOOK IF THERE IS DATA IN LOCAL STORAGE
 ENTRY_LIST = loadEntries();
 updateUI();
+initCookieBanner();
 
 //EVENT LISTENERS
 expenseBtn.addEventListener("click", function () {
@@ -155,6 +158,16 @@ addIncome.addEventListener("click", function () {
 incomeList.addEventListener("click", deleteOrEdit);
 expenseList.addEventListener("click", deleteOrEdit);
 allList.addEventListener("click", deleteOrEdit);
+
+if (acceptCookiesBtn) {
+  acceptCookiesBtn.addEventListener("click", function () {
+    localStorage.setItem("cookie_consent", "accepted");
+
+    if (cookieBanner) {
+      cookieBanner.classList.add("hide");
+    }
+  });
+}
 
 // HELEPER FUNCS
 function deleteOrEdit(event) {
@@ -385,6 +398,20 @@ function isValidStoredEntry(entry) {
     Number.isFinite(entry.amount) &&
     entry.amount > 0
   );
+}
+
+function initCookieBanner() {
+  if (!cookieBanner || !acceptCookiesBtn) {
+    return;
+  }
+
+  const consentStatus = localStorage.getItem("cookie_consent");
+
+  if (consentStatus === "accepted") {
+    cookieBanner.classList.add("hide");
+  } else {
+    cookieBanner.classList.remove("hide");
+  }
 }
 
 function applyLanguage(lang) {
