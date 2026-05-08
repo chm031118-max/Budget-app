@@ -9,6 +9,35 @@ const incomeList = document.querySelector("#income .list");
 const expenseList = document.querySelector("#expense .list");
 const allList = document.querySelector("#all .list");
 
+const translations = {
+  en: {
+    balance: "Balance",
+    income: "Income",
+    outcome: "Outcome",
+    dashboard: "Dashboard",
+    expenses_tab: "Expenses",
+    income_tab: "Income",
+    all_tab: "All",
+    title_placeholder: "title",
+    amount_placeholder: "$0",
+    add_expense_aria: "Add expense",
+    add_income_aria: "Add income",
+  },
+  zh: {
+    balance: "余额",
+    income: "收入",
+    outcome: "支出",
+    dashboard: "仪表板",
+    expenses_tab: "支出",
+    income_tab: "收入",
+    all_tab: "全部",
+    title_placeholder: "标题",
+    amount_placeholder: "金额",
+    add_expense_aria: "添加支出",
+    add_income_aria: "添加收入",
+  }
+};
+
 //SELECT BUTTONS
 const expenseBtn = document.querySelector(".first-tab");
 const incomeBtn = document.querySelector(".second-tab");
@@ -27,6 +56,7 @@ const incomeTitleError = document.getElementById("income-title-error");
 const incomeAmountError = document.getElementById("income-amount-error");
 //VARIABLES
 let ENTRY_LIST;
+let currentLang = localStorage.getItem("lang") || "en";
 let balance = 0,
   income = 0,
   outcome = 0;
@@ -355,5 +385,45 @@ function isValidStoredEntry(entry) {
     Number.isFinite(entry.amount) &&
     entry.amount > 0
   );
+}
+
+function applyLanguage(lang) {
+  document.querySelectorAll("[data-i18n]").forEach(el => {
+    const key = el.getAttribute("data-i18n");
+    if (translations[lang] && translations[lang][key]) {
+      el.textContent = translations[lang][key];
+    }
+  });
   
+  document.querySelectorAll("[data-i18n-placeholder]").forEach(el => {
+    const key = el.getAttribute("data-i18n-placeholder");
+    if (translations[lang] && translations[lang][key]) {
+      el.placeholder = translations[lang][key];
+    }
+  });
+  
+  document.querySelectorAll("[data-i18n-aria]").forEach(el => {
+    const key = el.getAttribute("data-i18n-aria");
+    if (translations[lang] && translations[lang][key]) {
+      el.setAttribute("aria-label", translations[lang][key]);
+    }
+  });
+  
+  const toggleBtn = document.getElementById("lang-toggle");
+  if (toggleBtn) {
+    toggleBtn.textContent = lang === "en" ? "🌐 中文" : "🌐 English";
+  }
+  localStorage.setItem("lang", lang);
+}
+
+function toggleLanguage() {
+  currentLang = currentLang === "en" ? "zh" : "en";
+  applyLanguage(currentLang);
+}
+
+applyLanguage(currentLang);
+
+const toggleBtn = document.getElementById('lang-toggle');
+if (toggleBtn) {
+  toggleBtn.addEventListener('click', toggleLanguage);
 }

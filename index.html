@@ -13,32 +13,33 @@
   <div class="budget-container">
     <div class="app-title">
       <a href="/">Budget<b>App</b></a>
+      <button id="lang-toggle" style="margin-left: 20px;">🌐 English</button>
     </div>
     <div class="budget-header">
       <div class="balance">
-        <div class="title">Balance</div>
+        <div class="title" data-i18n="balance">Balance</div>
         <div class="value"><small>$</small>0</div>
       </div>
       <div class="account">
         <div class="income">
-          <div class="title">Income</div>
+          <div class="title" data-i18n="income">Income</div>
           <div class="income-total"><small>$</small>0</div>
         </div>
         <div class="chart"></div>
         <div class="outcome">
-          <div class="title">Outcome</div>
+          <div class="title" data-i18n="outcome">Outcome</div>
           <div class="outcome-total"><small>$</small>0</div>
         </div>
       </div>
     </div>
 
     <main class="budget-dashboard">
-      <div class="dash-title">Dashboard</div>
+      <div class="dash-title" data-i18n="dashboard">Dashboard</div>
 
       <div class="toggle">
-        <button type="button" class="first-tab" id="tab-expenses">Expenses</button>
-        <button type="button" class="second-tab" id="tab-income">Income</button>
-        <button type="button" class="third-tab focus" id="tab-all">All</button>
+        <button type="button" class="first-tab" id="tab-expenses" data-i18n="expenses_tab">Expenses</button>
+        <button type="button" class="second-tab" id="tab-income" data-i18n="income_tab">Income</button>
+        <button type="button" class="third-tab focus" id="tab-all" data-i18n="all_tab">All</button>
       </div>
 
       <div class="hide" id="expense">
@@ -46,13 +47,13 @@
         <div class="input">
           <div class="input-group">
             <label for="expense-title-input" class="visually-hidden">Expense title</label>
-            <input type="text" id="expense-title-input" name="title" placeholder="title" />
+            <input type="text" id="expense-title-input" name="title" placeholder="title" data-i18n-placeholder="title_placeholder" />
           </div>
           <div class="input-group">
             <label for="expense-amount-input" class="visually-hidden">Expense amount</label>
-            <input type="number" id="expense-amount-input" name="amount" placeholder="$0" />
+            <input type="number" id="expense-amount-input" name="amount" placeholder="$0" data-i18n-placeholder="amount_placeholder" />
           </div>
-          <button type="button" class="add-expense" aria-label="Add expense">+</button>
+          <button type="button" class="add-expense" aria-label="Add expense" data-i18n-aria="add_expense_aria">+</button>
         </div>
       </div>
 
@@ -61,13 +62,13 @@
         <div class="input">
           <div class="input-group">
             <label for="income-title-input" class="visually-hidden">Income title</label>
-            <input type="text" id="income-title-input" name="title" placeholder="title" />
+            <input type="text" id="income-title-input" name="title" placeholder="title" data-i18n-placeholder="title_placeholder" />
           </div>
           <div class="input-group">
             <label for="income-amount-input" class="visually-hidden">Income amount</label>
-            <input type="number" id="income-amount-input" name="amount" placeholder="$0" />
+            <input type="number" id="income-amount-input" name="amount" placeholder="$0" data-i18n-placeholder="amount_placeholder" />
           </div>
-          <button type="button" class="add-income" aria-label="Add income">+</button>
+          <button type="button" class="add-income" aria-label="Add income" data-i18n-aria="add_income_aria">+</button>
         </div>
       </div>
 
