@@ -210,11 +210,13 @@ input[type="number"] {
   font-family: "Gilroy Bold";
 }
 
-.budget-dashboard #all ul.list li #edit {
+.budget-dashboard #all ul.list li .edit {
   visibility: hidden;
+  border: none;
+  background-color: transparent;
 }
 
-.budget-dashboard #all ul.list li #delete {
+.budget-dashboard #all ul.list li .delete {
   position: absolute;
   width: 20px;
   height: 20px;
@@ -223,6 +225,8 @@ input[type="number"] {
   background-image: url("icon/trash.png");
   background-size: 20px 20px;
   background-repeat: no-repeat;
+  border: none;
+  background-color: transparent;
 }
 
 .budget-dashboard #all ul.list li.income {
@@ -312,7 +316,7 @@ input[type="number"] {
   color: #f0624d;
 }
 
-.budget-dashboard #expense ul.list li #edit {
+.budget-dashboard #expense ul.list li .edit {
   position: absolute;
   width: 20px;
   height: 20px;
@@ -321,9 +325,11 @@ input[type="number"] {
   background-image: url("icon/edit.png");
   background-size: 20px 20px;
   background-repeat: no-repeat;
+  border: none;
+  background-color: transparent;
 }
 
-.budget-dashboard #expense ul.list li #delete {
+.budget-dashboard #expense ul.list li .delete {
   position: absolute;
   width: 20px;
   height: 20px;
@@ -332,6 +338,8 @@ input[type="number"] {
   background-image: url("icon/trash.png");
   background-size: 20px 20px;
   background-repeat: no-repeat;
+  border: none;
+  background-color: transparent;
 }
 
 /* /////// INCOME //////// */
@@ -414,7 +422,7 @@ input[type="number"] {
   font-family: "Gilroy Bold";
 }
 
-.budget-dashboard #income ul.list li #edit {
+.budget-dashboard #income ul.list li .edit {
   position: absolute;
   width: 20px;
   height: 20px;
@@ -423,9 +431,11 @@ input[type="number"] {
   background-image: url("icon/edit.png");
   background-size: 20px 20px;
   background-repeat: no-repeat;
+  border: none;
+  background-color: transparent;
 }
 
-.budget-dashboard #income ul.list li #delete {
+.budget-dashboard #income ul.list li .delete {
   position: absolute;
   width: 20px;
   height: 20px;
@@ -434,4 +444,6 @@ input[type="number"] {
   background-image: url("icon/trash.png");
   background-size: 20px 20px;
   background-repeat: no-repeat;
+  border: none;
+  background-color: transparent;
 }
