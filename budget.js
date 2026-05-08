@@ -263,17 +263,54 @@ function inactive(elements) {
 }
 
 function showValidationErrors(titleInput, amountInput, titleErrorElement, amountErrorElement, errors) {
-  titleErrorElement.textContent = errors.title || "";
-  amountErrorElement.textContent = errors.amount || "";
+  if (titleErrorElement) {
+    titleErrorElement.textContent = errors.title || "";
+  }
+
+  if (amountErrorElement) {
+    amountErrorElement.textContent = errors.amount || "";
+  }
 
   titleInput.classList.toggle("input-error", Boolean(errors.title));
   amountInput.classList.toggle("input-error", Boolean(errors.amount));
 }
 
 function clearValidationErrors(titleInput, amountInput, titleErrorElement, amountErrorElement) {
-  titleErrorElement.textContent = "";
-  amountErrorElement.textContent = "";
+  if (titleErrorElement) {
+    titleErrorElement.textContent = "";
+  }
+
+  if (amountErrorElement) {
+    amountErrorElement.textContent = "";
+  }
 
   titleInput.classList.remove("input-error");
   amountInput.classList.remove("input-error");
+}
+
+function validateEntry(title, amount) {
+  const trimmedTitle = title.trim();
+  const numericAmount = Number(amount);
+  const errors = {};
+
+  if (!trimmedTitle) {
+    errors.title = "Title is required.";
+  }
+
+  if (!amount || !Number.isFinite(numericAmount) || numericAmount <= 0) {
+    errors.amount = "Amount must be greater than 0.";
+  }
+
+  if (numericAmount > 1000000) {
+    errors.amount = "Amount is too large.";
+  }
+
+  return {
+    valid: Object.keys(errors).length === 0,
+    errors,
+    value: {
+      title: trimmedTitle,
+      amount: numericAmount,
+    },
+  };
 }
