@@ -84,12 +84,7 @@
             <p id="expense-amount-error" class="error-message" aria-live="polite"></p>
           </div>
 
-          <button
-            type="button"
-            class="add-expense"
-            aria-label="Add expense"
-            data-i18n-aria="add_expense_aria"
-          >
+          <button type="button" class="add-expense" aria-label="Add expense" data-i18n-aria="add_expense_aria">
             +
           </button>
         </div>
@@ -127,12 +122,7 @@
             <p id="income-amount-error" class="error-message" aria-live="polite"></p>
           </div>
 
-          <button
-            type="button"
-            class="add-income"
-            aria-label="Add income"
-            data-i18n-aria="add_income_aria"
-          >
+          <button type="button" class="add-income" aria-label="Add income" data-i18n-aria="add_income_aria">
             +
           </button>
         </div>
@@ -145,13 +135,7 @@
   </div>
 
   <!-- Cookie Consent Banner -->
-  <div
-    id="cookie-banner"
-    class="cookie-banner"
-    role="dialog"
-    aria-live="polite"
-    aria-label="Cookie consent notice"
-  >
+  <div id="cookie-banner" class="cookie-banner" role="dialog" aria-live="polite" aria-label="Cookie consent notice">
     <div class="cookie-banner-content">
       <p>
         This website uses local storage to remember your budget data, language preference,
@@ -159,8 +143,14 @@
       </p>
 
       <div class="cookie-banner-actions">
+        <button type="button" id="reject-cookies">
+          Reject
+        </button>
+        <button type="button" id="necessary-cookies">
+          Necessary Only
+        </button>
         <button type="button" id="accept-cookies">
-          Accept
+          Accept All
         </button>
         <a href="privacy.html" class="privacy-link">
           Privacy Policy

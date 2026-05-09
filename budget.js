@@ -10,6 +10,8 @@ const expenseList = document.querySelector("#expense .list");
 const allList = document.querySelector("#all .list");
 const cookieBanner = document.getElementById("cookie-banner");
 const acceptCookiesBtn = document.getElementById("accept-cookies");
+const rejectCookiesBtn = document.getElementById("reject-cookies");
+const necessaryCookiesBtn = document.getElementById("necessary-cookies");
 
 const translations = {
   en: {
@@ -159,13 +161,21 @@ incomeList.addEventListener("click", deleteOrEdit);
 expenseList.addEventListener("click", deleteOrEdit);
 allList.addEventListener("click", deleteOrEdit);
 
+if (rejectCookiesBtn) {
+  rejectCookiesBtn.addEventListener("click", function () {
+    saveCookieConsent("rejected");
+  });
+}
+
+if (necessaryCookiesBtn) {
+  necessaryCookiesBtn.addEventListener("click", function () {
+    saveCookieConsent("necessary_only");
+  });
+}
+
 if (acceptCookiesBtn) {
   acceptCookiesBtn.addEventListener("click", function () {
-    localStorage.setItem("cookie_consent", "accepted");
-
-    if (cookieBanner) {
-      cookieBanner.classList.add("hide");
-    }
+    saveCookieConsent("accepted_all");
   });
 }
 
@@ -441,14 +451,22 @@ function isValidStoredEntry(entry) {
   );
 }
 
+function saveCookieConsent(status) {
+  localStorage.setItem("cookie_consent", status);
+
+  if (cookieBanner) {
+    cookieBanner.classList.add("hide");
+  }
+}
+
 function initCookieBanner() {
-  if (!cookieBanner || !acceptCookiesBtn) {
+  if (!cookieBanner) {
     return;
   }
 
   const consentStatus = localStorage.getItem("cookie_consent");
 
-  if (consentStatus === "accepted") {
+  if (consentStatus) {
     cookieBanner.classList.add("hide");
   } else {
     cookieBanner.classList.remove("hide");
