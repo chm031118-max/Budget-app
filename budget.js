@@ -315,17 +315,85 @@ function inactive(elements) {
   });
 }
 
-function showValidationErrors(titleInput, amountInput, titleErrorElement, amountErrorElement, errors) {
-  if (titleErrorElement) {
-    titleErrorElement.textContent = errors.title || "";
+const ERROR_MESSAGE_TRANSLATIONS = {
+  zh: {
+    "Title is required.": "请输入标题。",
+    "Title must be 40 characters or fewer.": "标题不能超过 40 个字符。",
+    "Amount is required.": "请输入金额。",
+    "Amount must be a valid number.": "金额必须是有效数字。",
+    "Amount must use digits only, with at most 2 decimal places.":
+      "金额只能包含数字，且最多保留两位小数。",
+    "Amount must be greater than 0.": "金额必须大于 0。",
+    "Amount must not exceed 1,000,000,000.":
+      "金额不能超过 1,000,000,000。",
+  },
+};
+
+function translateValidationError(message) {
+  if (!message) return "";
+
+  if (currentLang === "zh") {
+    return ERROR_MESSAGE_TRANSLATIONS.zh[message] || message;
   }
 
-  if (amountErrorElement) {
-    amountErrorElement.textContent = errors.amount || "";
-  }
+  return message;
+}
+
+function showValidationErrors(
+  titleInput,
+  amountInput,
+  titleErrorElement,
+  amountErrorElement,
+  errors
+) {
+  titleErrorElement.textContent = translateValidationError(errors.title);
+  amountErrorElement.textContent = translateValidationError(errors.amount);
 
   titleInput.classList.toggle("input-error", Boolean(errors.title));
   amountInput.classList.toggle("input-error", Boolean(errors.amount));
+}
+
+function refreshValidationErrorLanguage() {
+  if (
+    expenseTitle.classList.contains("input-error") ||
+    expenseAmount.classList.contains("input-error")
+  ) {
+    const expenseValidation = validateEntry(
+      expenseTitle.value,
+      expenseAmount.value
+    );
+
+    if (!expenseValidation.valid) {
+      showValidationErrors(
+        expenseTitle,
+        expenseAmount,
+        expenseTitleError,
+        expenseAmountError,
+        expenseValidation.errors
+      );
+      return;
+    }
+  }
+
+  if (
+    incomeTitle.classList.contains("input-error") ||
+    incomeAmount.classList.contains("input-error")
+  ) {
+    const incomeValidation = validateEntry(
+      incomeTitle.value,
+      incomeAmount.value
+    );
+
+    if (!incomeValidation.valid) {
+      showValidationErrors(
+        incomeTitle,
+        incomeAmount,
+        incomeTitleError,
+        incomeAmountError,
+        incomeValidation.errors
+      );
+    }
+  }
 }
 
 function clearValidationErrors(titleInput, amountInput, titleErrorElement, amountErrorElement) {
@@ -339,33 +407,6 @@ function clearValidationErrors(titleInput, amountInput, titleErrorElement, amoun
 
   titleInput.classList.remove("input-error");
   amountInput.classList.remove("input-error");
-}
-
-function validateEntry(title, amount) {
-  const trimmedTitle = title.trim();
-  const numericAmount = Number(amount);
-  const errors = {};
-
-  if (!trimmedTitle) {
-    errors.title = "Title is required.";
-  }
-
-  if (!amount || !Number.isFinite(numericAmount) || numericAmount <= 0) {
-    errors.amount = "Amount must be greater than 0.";
-  }
-
-  if (numericAmount > 1000000) {
-    errors.amount = "Amount is too large.";
-  }
-
-  return {
-    valid: Object.keys(errors).length === 0,
-    errors,
-    value: {
-      title: trimmedTitle,
-      amount: numericAmount,
-    },
-  };
 }
 
 function loadEntries() {
@@ -463,7 +504,9 @@ function applyLanguage(lang) {
 
 function toggleLanguage() {
   currentLang = currentLang === "en" ? "zh" : "en";
+  localStorage.setItem("lang", currentLang);
   applyLanguage(currentLang);
+  refreshValidationErrorLanguage();
 }
 
 applyLanguage(currentLang);
